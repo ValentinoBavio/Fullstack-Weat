@@ -105,9 +105,7 @@
         statusDiv.innerHTML = "Cargando...";
 
         try {
-          const res = await fetch(
-            "http://localhost:3000/api/weather?city=" + city,
-          );
+          const res = await fetch("https://fullstack-weat.onrender.com" + city);
           const data = await res.json();
 
           statusDiv.innerHTML = "";
