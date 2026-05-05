@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Weather App</title>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to right, #0f172a, #1e293b);
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 16px;
+        text-align: center;
+        width: 300px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      select,
+      button {
+        padding: 10px;
+        margin: 10px 5px;
+        border-radius: 8px;
+        border: none;
+        font-size: 14px;
+      }
+
+      button {
+        background: #38bdf8;
+        cursor: pointer;
+        color: black;
+        font-weight: bold;
+      }
+
+      button:hover {
+        background: #0ea5e9;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+      }
+
+      .temp {
+        font-size: 40px;
+        font-weight: bold;
+      }
+
+      .desc {
+        text-transform: capitalize;
+        margin-bottom: 10px;
+      }
+
+      .extra {
+        font-size: 14px;
+        opacity: 0.8;
+      }
+
+      .loading {
+        margin-top: 10px;
+        font-size: 14px;
+        opacity: 0.7;
+      }
+
+      .error {
+        color: #f87171;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card">
+      <h1>🌤️ Clima</h1>
+
+      <select id="city">
+        <option value="Buenos Aires">Buenos Aires</option>
+        <option value="Cordoba">Córdoba</option>
+        <option value="Rosario">Rosario</option>
+        <option value="Mendoza">Mendoza</option>
+      </select>
+
+      <button onclick="getWeather()">Ver clima</button>
+
+      <div id="status" class="loading"></div>
+      <div id="result"></div>
+    </div>
+
+    <script>
+      async function getWeather() {
+        const city = document.getElementById("city").value;
+        const resultDiv = document.getElementById("result");
+        const statusDiv = document.getElementById("status");
+
+        resultDiv.innerHTML = "";
+        statusDiv.innerHTML = "Cargando...";
+
+        try {
+          const res = await fetch(
+            "http://localhost:3000/api/weather?city=" + city,
+          );
+          const data = await res.json();
+
+          statusDiv.innerHTML = "";
+
+          resultDiv.innerHTML = `
+          <h2>${data.city}, ${data.country}</h2>
+          <div class="temp">${data.temperature}°C</div>
+          <div class="desc">${data.weather}</div>
+          <div class="extra">Sensación: ${data.feels_like}°C</div>
+          <div class="extra">Humedad: ${data.humidity}%</div>
+          <div class="extra">Viento: ${data.wind_speed} m/s</div>
+        `;
+        } catch (error) {
+          statusDiv.innerHTML = "";
+          resultDiv.innerHTML = `<div class="error">Error obteniendo datos</div>`;
+        }
+      }
+    </script>
+  </body>
+</html>
