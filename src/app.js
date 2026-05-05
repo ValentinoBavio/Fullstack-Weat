@@ -4,6 +4,10 @@ const express = require("express");
 const cors = require("cors");
 const PORT = process.env.PORT || 3000;
 
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
 const weatherRoutes = require("./routes/weatherRoutes");
 
 const app = express(); // 👈 PRIMERO creás app
