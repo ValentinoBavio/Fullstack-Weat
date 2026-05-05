@@ -11,10 +11,6 @@ app.get("/", (req, res) => {
   res.send("API running");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
 const weatherRoutes = require("./routes/weatherRoutes");
 
 const app = express(); // 👈 PRIMERO creás app
